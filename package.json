@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "sb-buildpatches": "github:damianb/sb-buildpatches",
+    "sb-pngsqueeze": "github:damianb/sb-pngsqueeze",
+    "sb-validatejson": "github:damianb/sb-validatejson"
+  }
+}

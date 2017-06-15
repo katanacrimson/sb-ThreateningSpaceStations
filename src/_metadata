@@ -1,0 +1,7 @@
+{
+  "author" : "katana",
+  "friendlyName" : "Threatening Space Stations!",
+  "name" : "ThreateningSpaceStations",
+  "description" : "Sets the threat level to insane levels for player-made Space Stations to get better treasure pools from tenants.",
+  "version" : "1.0"
+}
