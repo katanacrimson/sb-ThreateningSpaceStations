@@ -2,18 +2,13 @@
 pipeline {
   options {
     gitLabConnection('gitlab@nebula')
+    gitlabBuilds(builds: ['jenkins'])
     timestamps()
   }
-  triggers {
-    gitlab(
-      triggerOnPush: true,
-      triggerOnMergeRequest: true,
-      branchFilterType: 'All',
-      noteRegex: 'rebuild',
-      pendingBuildName: 'jenkins'
-    )
-  }
   post {
+    always {
+      cleanWs()
+    }
     failure {
       updateGitlabCommitStatus name: 'jenkins', state: 'failed'
     }
@@ -28,8 +23,9 @@ pipeline {
   stages {
     stage('Build') {
       steps {
+        updateGitlabCommitStatus name: 'jenkins', state: 'running'
         configFileProvider([configFile(fileId: '142cc8ae-6dcc-42a5-b9b3-3d84873a7f9d', targetLocation: './_smtkpath.bat')]) {
-            bat 'make.bat'
+          bat 'make.bat'
         }
         archiveArtifacts 'build/*.pak'
       }
