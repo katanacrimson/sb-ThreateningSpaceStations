@@ -1,2 +1,4 @@
-_smtkpath.bat
 smtk.log
+_smtkpath.bat
+build/*
+!build/.gitkeep
