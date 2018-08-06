@@ -17,6 +17,7 @@ pipeline {
       updateGitlabCommitStatus name: 'jenkins', state: 'canceled'
     }
     success {
+      archiveArtifacts 'build/*.pak'
       updateGitlabCommitStatus name: 'jenkins', state: 'success'
     }
     cleanup {
@@ -36,34 +37,20 @@ pipeline {
         }
       }
     }
-
     stage('Publish') {
+      when {
+        branch 'master'
+      }
       steps {
-        archiveArtifacts 'build/*.pak'
-
-        // archive the pak for this specific build, and...
-        cifsPublisher alwaysPublishFromMaster: true,
-          failOnError: true,
-          publishers: [[
-            configName: 'neutron',
-            transfers: [[
-              remoteDirectory: '$JOB_NAME/$BUILD_NUMBER/',
-              removePrefix: 'build',
-              sourceFiles: 'build/*.pak'
-            ]],
-            verbose: false
-          ]]
-
         // update "latest" pak available
         cifsPublisher alwaysPublishFromMaster: true,
           failOnError: true,
           publishers: [[
             configName: 'neutron',
             transfers: [[
-              remoteDirectory: '$JOB_NAME/latest/',
+              remoteDirectory: 'starbound_mods/',
               removePrefix: 'build',
-              sourceFiles: 'build/*.pak',
-              cleanRemote: true
+              sourceFiles: 'build/*.pak'
             ]],
             verbose: false
           ]]
