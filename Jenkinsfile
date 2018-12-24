@@ -15,7 +15,7 @@ pipeline {
     SB_CRUSHPNG = 'false'
   }
   options {
-    gitLabConnection('gitlab@nebula')
+    gitLabConnection('gitlab@cr.imson.co')
     gitlabBuilds(builds: ['jenkins'])
     timestamps()
   }
